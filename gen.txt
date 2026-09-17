@@ -1,0 +1,13 @@
+﻿已生成 sample_images/digit_0.png（数字 0）
+已生成 sample_images/digit_1.png（数字 1）
+已生成 sample_images/digit_2.png（数字 2）
+已生成 sample_images/digit_3.png（数字 3）
+已生成 sample_images/digit_4.png（数字 4）
+已生成 sample_images/digit_5.png（数字 5）
+已生成 sample_images/digit_6.png（数字 6）
+已生成 sample_images/digit_7.png（数字 7）
+已生成 sample_images/digit_8.png（数字 8）
+已生成 sample_images/digit_9.png（数字 9）
+
+示例图片生成完毕！
+运行 classify.py 后，输入 sample_images/digit_5.png 即可测试识别。

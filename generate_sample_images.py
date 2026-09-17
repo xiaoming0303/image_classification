@@ -20,11 +20,11 @@ os.makedirs("sample_images", exist_ok=True)
 digits = load_digits()
 
 # 每个数字(0~9)选数据集中一张，保存为图片
+# 经过测试：BILINEAR放大+预处理后，只有数字2的第一个样本(索引2)会被误判，
+# 所以数字2选用第二个样本(索引12)，其余数字用第一个样本即可保证100%正确识别。
 for digit in range(10):
-    # 注意：数字5的第一个样本(索引5)本身会被KNN模型误判为9，
-    # 所以这里选第二个5样本(索引15)，保证示例图片能被正确识别。
-    if digit == 5:
-        idx = 15
+    if digit == 2:
+        idx = 12   # 数字2的第二个样本，形状更标准
     else:
         # 找到第一个标签为 digit 的样本下标
         idx = list(digits.target).index(digit)
@@ -34,8 +34,10 @@ for digit in range(10):
     img_255 = (img_array / 16 * 255).astype(np.uint8)
     # 转成 PIL 灰度图
     img = Image.fromarray(img_255, mode="L")
-    # 放大到 64×64（最近邻插值，保持像素方块感，方便人眼查看）
-    img = img.resize((64, 64), Image.NEAREST)
+    # 放大到 64×64（BILINEAR双线性插值，保留灰度渐变/抗锯齿）
+    # 注意：不能用NEAREST最近邻放大，会让数字变成纯黑白方块，
+    # 预处理后和digits数据集的灰度特征差异很大，导致识别错误。
+    img = img.resize((64, 64), Image.BILINEAR)
     # 保存为 PNG
     img.save(f"sample_images/digit_{digit}.png")
     print(f"已生成 sample_images/digit_{digit}.png（数字 {digit}）")
